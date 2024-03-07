@@ -106,7 +106,27 @@ public class ClientActionProcessing {
 
     // method to change existing data
     public static int updateUserInfo(Connection connection) {
-        return 2;
+        try {
+            Scanner scan = new Scanner(System.in);
+            System.out.println("Enter the first name of the user to be updated: ");
+            String firstName = scan.nextLine();
+            System.out.println("Enter the last name of the user to be updated: ");
+            String lastName = scan.nextLine();
+            System.out.println("Please enter the new first name to be placed: ");
+            String newFirstName = scan.nextLine();
+            System.out.println("Please enter the new last name to be placed: ");
+            String newLastName = scan.nextLine();
+
+
+            PreparedStatement pstmt = connection.prepareStatement(String.format("UPDATE bank_users SET name='%s %s' WHERE name='%s %s'", newFirstName, newLastName, firstName, lastName));
+            pstmt.executeUpdate();
+            System.out.println("User updated successfully!");
+            scan.close();
+            connection.close();
+            return 0;
+        } catch (SQLException sqlE) {
+            return Integer.parseInt(sqlE.getSQLState());
+        }
     }
 
     // method to return metadata about data
