@@ -29,7 +29,8 @@ public class ClientActionProcessing {
                 System.err.print("ERROR: Command not supported yet!");
                 System.exit(1);
             default:
-                System.err.print("ERROR: Error occurred while executing command!");
+                System.err.println("ERROR: Error occurred while executing command!");
+                System.out.print(result);
                 System.exit(1);
         }
     }
@@ -70,11 +71,13 @@ public class ClientActionProcessing {
             String firstName = scan.nextLine();
             System.out.println("Enter last name of the user to be added: ");
             String lastName = scan.nextLine();
-            scan.close();
 
-            PreparedStatement pstmt = connection.prepareStatement(String.format("INSERT INTO bank_users (name) VALUES ('%s %s');", firstName, lastName));
+            PreparedStatement pstmt = connection.prepareStatement("INSERT INTO bank_users (name) VALUES (?)");
+            pstmt.setString(1, String.format("%s %s", firstName, lastName));
             pstmt.executeUpdate();
             System.out.println("User added successfully!");
+            scan.close();
+
             connection.close();
             pstmt.close();
             return 0;
@@ -93,7 +96,8 @@ public class ClientActionProcessing {
             String lastName = scan.nextLine();
             scan.close();
 
-            PreparedStatement pstmt = connection.prepareStatement(String.format("DELETE FROM bank_users WHERE name = '%s %s';", firstName, lastName));
+            PreparedStatement pstmt = connection.prepareStatement("DELETE FROM bank_users WHERE name=?");
+            pstmt.setString(1, String.format("%s %s", firstName, lastName));
             pstmt.executeUpdate();
             System.out.println("User removed successfully!");
             connection.close();
@@ -109,16 +113,18 @@ public class ClientActionProcessing {
         try {
             Scanner scan = new Scanner(System.in);
             System.out.println("Enter the first name of the user to be updated: ");
-            String firstName = scan.nextLine();
+            String prevFirstName = scan.nextLine();
             System.out.println("Enter the last name of the user to be updated: ");
-            String lastName = scan.nextLine();
+            String prevLastName = scan.nextLine();
             System.out.println("Please enter the new first name to be placed: ");
             String newFirstName = scan.nextLine();
             System.out.println("Please enter the new last name to be placed: ");
             String newLastName = scan.nextLine();
 
 
-            PreparedStatement pstmt = connection.prepareStatement(String.format("UPDATE bank_users SET name='%s %s' WHERE name='%s %s'", newFirstName, newLastName, firstName, lastName));
+            PreparedStatement pstmt = connection.prepareStatement("UPDATE bank_users SET name=? WHERE name=?");
+            pstmt.setString(1, String.format("%s %s", newFirstName, newLastName));
+            pstmt.setString(2, String.format("%s %s", prevFirstName, prevLastName));           
             pstmt.executeUpdate();
             System.out.println("User updated successfully!");
             scan.close();
@@ -140,7 +146,8 @@ public class ClientActionProcessing {
             System.out.println("Please enter the last name of the user to retrieve data about: ");
             lastName = scan.nextLine();
 
-            PreparedStatement pstmt = connection.prepareStatement(String.format("SELECT * FROM bank_users WHERE name='%s %s'", firstName, lastName));
+            PreparedStatement pstmt = connection.prepareStatement("SELECT * FROM bank_users WHERE name=?");
+            pstmt.setString(1, String.format("%s %s", firstName, lastName));
             ResultSet rs = pstmt.executeQuery();
             rs.next();
             
