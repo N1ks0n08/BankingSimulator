@@ -131,6 +131,29 @@ public class ClientActionProcessing {
 
     // method to return metadata about data
     public static int readUserInfo(Connection connection) {
-        return 2;
+        try {
+            Scanner scan = new Scanner(System.in);
+            String firstName;
+            String lastName;
+            System.out.println("Please enter the first name of the user to retrieve data about: ");
+            firstName = scan.nextLine();
+            System.out.println("Please enter the last name of the user to retrieve data about: ");
+            lastName = scan.nextLine();
+
+            PreparedStatement pstmt = connection.prepareStatement(String.format("SELECT * FROM bank_users WHERE name='%s %s'", firstName, lastName));
+            ResultSet rs = pstmt.executeQuery();
+            rs.next();
+            
+            int user_id = rs.getInt("id");
+            String user_name = rs.getString("name");
+            System.out.println(String.format("ID: %d%nNAME: %s", user_id, user_name));
+            
+            rs.close();
+            connection.close();
+            scan.close();
+            return 0;
+        } catch (SQLException sqlE) {
+            return Integer.parseInt(sqlE.getSQLState());
+        }
     }
 }
