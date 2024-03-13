@@ -1,5 +1,7 @@
 import java.sql.*;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class ClientActionProcessing {
     public static final String databaseURL = "jdbc:postgresql://localhost:5432/bankingsim";
@@ -162,5 +164,38 @@ public class ClientActionProcessing {
         } catch (SQLException sqlE) {
             return Integer.parseInt(sqlE.getSQLState());
         }
+    }
+
+    // method to ensure the names entered either have a first & last or first, middle, & last name; no blanks
+    public static String usernameAuthenticator() {
+        boolean askNameLoop = true;
+        String fullName = null;
+        Scanner scan = new Scanner(System.in);
+
+        while (askNameLoop) {
+            System.out.println("Do you have a middle name? (Y/N)");
+            if ((scan.nextLine()).toUpperCase() == "Y") {
+                askNameLoop = false;
+                fullName = firstAndLastName();
+            } else if ((scan.nextLine()).toUpperCase() == "N") {
+                askNameLoop = false;
+                fullName = firstMiddleAndLastName();
+            } else {
+                System.out.println("Incorrect option! (Y or N only)");
+            }
+        }
+        scan.close();
+        return fullName;
+    }
+
+    // implementation of regex to ensure data integrity for name of users
+    public static String firstAndLastName() {
+        String name = "";
+        return name;
+    }
+
+    public static String firstMiddleAndLastName() {
+        String name = "";
+        return name;
     }
 }
