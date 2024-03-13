@@ -8,7 +8,7 @@ It will include the ability to:
 
 The project will use a PostgreSQL server hosted on the local machine at its early stages.
 It will comprise of holding these following informations about the pseudo bank-user:
-- First and Last name
+- First, Middle (if applicable), and Last name
 - SSN
 - Credit Card Number
 - Contact Info (email and phone number)
