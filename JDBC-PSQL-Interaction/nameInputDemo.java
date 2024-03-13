@@ -12,23 +12,20 @@ public class nameInputDemo {
         String name = "";
         boolean ask = true;
 
-        if (middleNameCheck(scan)) {
-            while (ask) {
-                name = getUserInput(scan);
-                ask = firstMiddleAndLastNameValidator(name) == 0 ? false : true;
-                if (ask) System.out.println("Please enter a valid name!\nEX: Obi Wan Kenobi");
+        while (ask) {
+            name = getUserInput(scan);
+            ask = nameValidifier(name) == 0 ? false : true;
+            if (ask) {
+                System.out.println("Please enter a valid name!");
+                System.out.println("EX: Darth Vader");
+                System.out.println("EX: Obi Wan Kenobi");
             }
-        } else {
-            while (ask) {
-                name = getUserInput(scan);
-                ask = firstAndLastNameValidifier(name) == 0 ? false : true;
-                if (ask) System.out.println("Please enter a valid name!\nEX: Darth Vader");
-            }
-            scan.close();
         }
+        scan.close();
         return name;
     }
 
+    /* Depracated; the fuction nameValidifier(String name) already checks for optional middle name
     public static boolean middleNameCheck(Scanner scan) {
         boolean ask = true;
         boolean hasMiddleName = false;
@@ -48,7 +45,15 @@ public class nameInputDemo {
         }
         return hasMiddleName;
     }
+    */
 
+    public static int nameValidifier(String name) {
+        return Pattern.compile("[A-Z][a-z]+( [A-Z][a-z]+)?( [A-Z][a-z]+)")
+                        .matcher(name)
+                        .matches() ? 0 : 1;
+    }
+    
+    /* Deprecated; a more optimal solution (method above) is utilized instead
     public static int firstAndLastNameValidifier(String name) {
         return Pattern.compile("[A-Z][a-z]+ [A-Z][a-z]+")
                         .matcher(name)
@@ -60,6 +65,7 @@ public class nameInputDemo {
                         .matcher(name)
                         .matches() ? 0 : 1;
     }
+    */
 
     public static String getUserInput(Scanner scan) {
         System.out.println("Please enter your full name (including middle name if applicable): ");
