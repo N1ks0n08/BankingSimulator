@@ -8,13 +8,13 @@ public class ssnInputDemo {
         String ssn = "";
 
         while (ask) {
-            ask = (0 == ssnValidifier(ssn = getUserInput(scan))) ? false : true;
+            ask = (0 == ssnValidator(ssn = getUserInput(scan))) ? false : true;
             if (ask) System.out.println("ERROR: INVALID SSN!");
         }
         System.out.println(String.format("Your SSN is: %s", ssn));
     }
 
-    public static int ssnValidifier(String ssn) {
+    public static int ssnValidator(String ssn) {
         return Pattern.compile("[0-9]{3}-[0-9]{3}-[0-9]{4}")
                 .matcher(ssn)
                 .matches() ? 0 : 1;

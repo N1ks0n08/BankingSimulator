@@ -14,7 +14,7 @@ public class nameInputDemo {
 
         while (ask) {
             name = getUserInput(scan);
-            ask = nameValidifier(name) == 0 ? false : true;
+            ask = nameValidator(name) == 0 ? false : true;
             if (ask) {
                 System.out.println("Please enter a valid name!");
                 System.out.println("EX: Darth Vader");
@@ -47,7 +47,7 @@ public class nameInputDemo {
     }
     */
 
-    public static int nameValidifier(String name) {
+    public static int nameValidator(String name) {
         return Pattern.compile("[A-Z][a-z]+( [A-Z][a-z]+)?( [A-Z][a-z]+)")
                         .matcher(name)
                         .matches() ? 0 : 1;

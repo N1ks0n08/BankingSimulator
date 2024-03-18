@@ -8,14 +8,14 @@ public class creditCardInputDemo {
         String creditCardNumber = "";
 
         while (ask) {
-            if (0 == creditCardNumberValidifier(creditCardNumber = getCreditCardNumber(scan))) break;
+            if (0 == creditCardNumberValidator(creditCardNumber = getCreditCardNumber(scan))) break;
             System.out.println("ERROR: INVALID CREDIT CARD NUMBER!");
         }
 
         System.out.println(String.format("Your credit card number is: %s", creditCardNumber));
     }
 
-    public static int creditCardNumberValidifier(String creditCardNumber) {
+    public static int creditCardNumberValidator(String creditCardNumber) {
         return Pattern.compile("[0-9]{16}")
                 .matcher(creditCardNumber)
                 .matches() ? 0 : 1;
